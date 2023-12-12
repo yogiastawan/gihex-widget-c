@@ -16,5 +16,6 @@ void gihex_gauge_bar_set_max_value(GihexGaugeBar *self, gdouble max_value);
 void gihex_gauge_bar_set_color_track(GihexGaugeBar *self, GihexColor color);
 void gihex_gauge_bar_set_color_stroke(GihexGaugeBar *self, GihexColor color);
 void gihex_gauge_bar_set_color_bar(GihexGaugeBar *self, GihexColor color);
+void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size);
 
 G_END_DECLS

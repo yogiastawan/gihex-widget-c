@@ -8,6 +8,8 @@ struct _GihexGaugeBar
     gdouble min_value;
     gdouble max_value;
 
+    gdouble font_size_value;
+
     GihexColor color_track;
     GihexColor color_stroke;
     GihexColor color_bar;
@@ -21,6 +23,7 @@ enum
     PROP_COLOR_TRACK,
     PROP_COLOR_STROKE,
     PROP_COLOR_BAR,
+    PROP_FONT_SIZE_VALUE,
     NUM_PROP
 };
 
@@ -52,6 +55,7 @@ static void gihex_gauge_bar_init(GihexGaugeBar *self)
     self->color_track = gihex_color_new(42, 56, 53, 255);
     self->color_stroke = gihex_color_new(42, 56, 53, 255);
     self->color_bar = gihex_color_new(0, 168, 174, 255);
+    self->font_size_value = 12.0;
 }
 
 static void gihex_gauge_bar_class_init(GihexGaugeBarClass *klass)
@@ -84,6 +88,10 @@ static void gihex_gauge_bar_class_init(GihexGaugeBarClass *klass)
     gauge_props[PROP_COLOR_BAR] = g_param_spec_boxed("color-bar", "Color bar", "Color of the bar. Arc progress color",
                                                      GDK_TYPE_RGBA,
                                                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
+    gauge_props[PROP_FONT_SIZE_VALUE] = g_param_spec_double("font-size-value", "Font size of value", "Font size of value text",
+                                                            -G_MINDOUBLE, G_MAXDOUBLE, 12.0,
+                                                            G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
     g_object_class_install_properties(o_class, NUM_PROP, gauge_props);
     gtk_widget_class_set_css_name(w_class, "gihex_gauge_bar");
@@ -121,6 +129,9 @@ void gihex_gauge_bar_set_property(GObject *object, guint property_id, const GVal
         gihex_gauge_bar_set_color_bar(self, gihex_color_new(clr2->red * 255, clr2->green * 255, clr2->blue * 255, clr2->alpha * 255));
         break;
     }
+    case PROP_FONT_SIZE_VALUE:
+        gihex_gauge_bar_set_font_size_value(self, g_value_get_double(value));
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
@@ -143,29 +154,38 @@ void gihex_gauge_bar_get_property(GObject *object, guint prop_id, GValue *value,
         g_value_set_double(value, self->max_value);
         break;
     case PROP_COLOR_TRACK:
-       { GdkRGBA a = {
+    {
+        GdkRGBA a = {
             (float)self->color_track.r / 255.0,
             (float)self->color_track.g / 255.0,
             (float)self->color_track.b / 255.0,
             (float)self->color_track.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&a));
-        break;}
+        break;
+    }
     case PROP_COLOR_STROKE:
-       { GdkRGBA b = {
+    {
+        GdkRGBA b = {
             (float)self->color_stroke.r / 255.0,
             (float)self->color_stroke.g / 255.0,
             (float)self->color_stroke.b / 255.0,
             (float)self->color_stroke.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&b));
-        break;}
+        break;
+    }
     case PROP_COLOR_BAR:
-       { GdkRGBA c = {
+    {
+        GdkRGBA c = {
             (float)self->color_bar.r / 255.0,
             (float)self->color_bar.g / 255.0,
             (float)self->color_bar.b / 255.0,
             (float)self->color_bar.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&c));
-        break;}
+        break;
+    }
+    case PROP_FONT_SIZE_VALUE:
+        g_value_set_double(value, self->font_size_value);
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
         break;
@@ -210,6 +230,10 @@ void gihex_gauge_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
     {
         value = min_value;
     }
+
+    int len = snprintf(NULL, 0, "%.1f", value);
+    char *val = (char *)malloc(sizeof(char) * len);
+    sprintf(val, "%.1f", value);
 
     // draw track
     cairo_t *ctx = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
@@ -274,6 +298,18 @@ void gihex_gauge_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
     cairo_fill(ctx2);
 
     // draw text
+    cairo_t *cr = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
+    cairo_text_extents_t extent;
+    cairo_set_font_size(cr, self->font_size_value * size / 75);
+    cairo_text_extents(cr, val, &extent);
+    cairo_move_to(cr, (size / 2) - ((extent.width / 2) + extent.x_bearing), (size / 2) - ((extent.height / 2) + extent.y_bearing));
+    cairo_text_path(cr, val);
+    free(val);
+    cairo_set_source_rgba(cr, gihex_color_get_red(&self->color_bar),
+                          gihex_color_get_green(&self->color_bar),
+                          gihex_color_get_blue(&self->color_bar),
+                          gihex_color_get_alpha(&self->color_bar));
+    cairo_fill(cr);
 }
 
 void gihex_gauge_bar_measure(GtkWidget *widget,
@@ -334,5 +370,12 @@ void gihex_gauge_bar_set_color_bar(GihexGaugeBar *self, GihexColor color)
 {
     g_return_if_fail(GIHEX_IS_GAUGE_BAR(self));
     self->color_bar = color;
+    gtk_widget_queue_draw(GTK_WIDGET(self));
+}
+
+void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size)
+{
+    g_return_if_fail(GIHEX_IS_GAUGE_BAR(self));
+    self->font_size_value = size;
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
