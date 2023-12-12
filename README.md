@@ -12,9 +12,9 @@ Library that contains custom GTK4 widget using C language
 ## Build Dependencies
 
 To build this project, your system need install following dependencies:
-- cmake
-- GTK4 Development
-- C Compiler (`GCC, CLANG, or others`)
+- [cmake](https://cmake.org/)
+- [GTK4](https://www.gtk.org) Development
+- C Compiler ([`GCC`](https://gcc.gnu.org/), [`CLANG`](https://clang.llvm.org/), or others)
 
 ## Build Option
 Variable that can be set while build project are:
