@@ -105,7 +105,6 @@ void gihex_gauge_bar_set_property(GObject *object, guint property_id, const GVal
         break;
     case PROP_COLOR_TRACK:
         GdkRGBA *clr = g_value_get_boxed(value);
-
         gihex_gauge_bar_set_color_track(self, gihex_color_new(clr->red * 255, clr->green * 255, clr->blue * 255, clr->alpha * 255));
         break;
     case PROP_COLOR_STROKE:
