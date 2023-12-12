@@ -104,18 +104,23 @@ void gihex_gauge_bar_set_property(GObject *object, guint property_id, const GVal
         gihex_gauge_bar_set_max_value(self, g_value_get_double(value));
         break;
     case PROP_COLOR_TRACK:
-        GdkRGBA *clr = g_value_get_boxed(value);
+    {
+        GdkRGBA *clr = (GdkRGBA *)g_value_get_boxed(value);
         gihex_gauge_bar_set_color_track(self, gihex_color_new(clr->red * 255, clr->green * 255, clr->blue * 255, clr->alpha * 255));
         break;
+    }
     case PROP_COLOR_STROKE:
+    {
         GdkRGBA *clr1 = g_value_get_boxed(value);
         gihex_gauge_bar_set_color_stroke(self, gihex_color_new(clr1->red * 255, clr1->green * 255, clr1->blue * 255, clr1->alpha * 255));
         break;
+    }
     case PROP_COLOR_BAR:
+    {
         GdkRGBA *clr2 = g_value_get_boxed(value);
-
         gihex_gauge_bar_set_color_bar(self, gihex_color_new(clr2->red * 255, clr2->green * 255, clr2->blue * 255, clr2->alpha * 255));
         break;
+    }
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
@@ -138,29 +143,29 @@ void gihex_gauge_bar_get_property(GObject *object, guint prop_id, GValue *value,
         g_value_set_double(value, self->max_value);
         break;
     case PROP_COLOR_TRACK:
-        GdkRGBA a = {
+       { GdkRGBA a = {
             (float)self->color_track.r / 255.0,
             (float)self->color_track.g / 255.0,
             (float)self->color_track.b / 255.0,
             (float)self->color_track.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&a));
-        break;
+        break;}
     case PROP_COLOR_STROKE:
-        GdkRGBA b = {
+       { GdkRGBA b = {
             (float)self->color_stroke.r / 255.0,
             (float)self->color_stroke.g / 255.0,
             (float)self->color_stroke.b / 255.0,
             (float)self->color_stroke.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&b));
-        break;
+        break;}
     case PROP_COLOR_BAR:
-        GdkRGBA c = {
+       { GdkRGBA c = {
             (float)self->color_bar.r / 255.0,
             (float)self->color_bar.g / 255.0,
             (float)self->color_bar.b / 255.0,
             (float)self->color_bar.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&c));
-        break;
+        break;}
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
         break;
