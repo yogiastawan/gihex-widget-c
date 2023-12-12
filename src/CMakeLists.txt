@@ -7,4 +7,4 @@ else()
 add_library(gihex_widget STATIC ${src})
 endif(BUILD_SHARED)
 
-target_link_libraries(gihex_widget  PRIVATE PkgConfig::GTK4)
+target_link_libraries(gihex_widget  PRIVATE PkgConfig::GTK4 m)
