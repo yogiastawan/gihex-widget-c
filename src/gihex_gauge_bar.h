@@ -17,5 +17,10 @@ void gihex_gauge_bar_set_color_track(GihexGaugeBar *self, GihexColor color);
 void gihex_gauge_bar_set_color_stroke(GihexGaugeBar *self, GihexColor color);
 void gihex_gauge_bar_set_color_bar(GihexGaugeBar *self, GihexColor color);
 void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size);
+void gihex_gauge_bar_set_font_sub_text(GihexGaugeBar *self, gdouble size);
+void gihex_gauge_bar_set_color_text(GihexGaugeBar *self, GihexColor color);
+
+void gihex_gauge_bar_set_unit(GihexGaugeBar *self, const char *unit);
+void gihex_gauge_bar_set_name(GihexGaugeBar *self, const char *name);
 
 G_END_DECLS

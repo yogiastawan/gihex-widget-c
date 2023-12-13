@@ -7,6 +7,7 @@ static void on_activate(GtkApplication *app)
 {
     // Create a new window
     GtkWidget *window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "Gihex Gauge Bar");
     // Create a new box
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
     // Create new gauge
