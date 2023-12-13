@@ -110,7 +110,7 @@ static void gihex_gauge_bar_class_init(GihexGaugeBarClass *klass)
     gauge_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
                                                           -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
                                                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_TEXT_COLOR] = g_param_spec_boxed("text-color", "Color text", "Color of the text",
+    gauge_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
                                                       GDK_TYPE_RGBA,
                                                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -159,7 +159,7 @@ void gihex_gauge_bar_set_property(GObject *object, guint property_id, const GVal
         gihex_gauge_bar_set_font_size_value(self, g_value_get_double(value));
         break;
     case PROP_SUB_FONT_SIZE:
-        gihex_gauge_bar_set_font_sub_text(self, g_value_get_double(value));
+        gihex_gauge_bar_set_sub_font_size(self, g_value_get_double(value));
         break;
     case PROP_TEXT_COLOR:
     {
@@ -449,6 +449,11 @@ void gihex_gauge_bar_set_value(GihexGaugeBar *self, gdouble value)
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
 
+gdouble gihex_gauge_bar_get_value(GihexGaugeBar *self)
+{
+    return self->value;
+}
+
 void gihex_gauge_bar_set_min_value(GihexGaugeBar *self, gdouble min_value)
 {
     g_return_if_fail(GIHEX_IS_GAUGE_BAR(self));
@@ -456,11 +461,21 @@ void gihex_gauge_bar_set_min_value(GihexGaugeBar *self, gdouble min_value)
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
 
+double gihex_gauge_bar_get_min_value(GihexGaugeBar *self)
+{
+    return self->min_value;
+}
+
 void gihex_gauge_bar_set_max_value(GihexGaugeBar *self, gdouble max_value)
 {
     g_return_if_fail(GIHEX_IS_GAUGE_BAR(self));
     self->max_value = max_value;
     gtk_widget_queue_draw(GTK_WIDGET(self));
+}
+
+double gihex_gauge_bar_get_max_value(GihexGaugeBar *self)
+{
+    return self->max_value;
 }
 
 void gihex_gauge_bar_set_color_track(GihexGaugeBar *self, GihexColor color)
@@ -489,7 +504,7 @@ void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size)
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
 
-void gihex_gauge_bar_set_font_sub_text(GihexGaugeBar *self, gdouble size)
+void gihex_gauge_bar_set_sub_font_size(GihexGaugeBar *self, gdouble size)
 {
     g_return_if_fail(GIHEX_IS_GAUGE_BAR(self));
     self->sub_font_size = size;

@@ -1,20 +1,16 @@
 
 # GIHEX WIDGET C
 
-[![Continuous integration](https://github.com/yogiastawan/gihex-widget-c/actions/workflows/cmake-single-platform.yml/badge.svg)](https://github.com/yogiastawan/gihex-widget-c)
-[![GitHub](https://img.shields.io/github/license/yogiastawan/gihex-widget-c)](https://github.com/yogiastawan/gihex-widget-c/blob/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/yogiastawan/gihex-widget-c)](https://github.com/yogiastawan/gihex-widget-c/issues)
-
 ## Introduction
 
 Library that contains custom GTK4 widgets using C language
 
 ## Widgets List
   
-| **GihexGaugeBar** | <!--**GihexCircleBar** -->
-|:-------------:|:--------------:|  
-| ![Gihex Gauge Bar](screenshoot/gihex_gauge_bar.png) | |
-<!-- | **GihexCircleBar** | -->
+| **[GihexGaugeBar](#gihex_gauge_bar)** |
+|:-------------:|
+| ![Gihex Gauge Bar](screenshoot/gihex_gauge_bar.png) | 
+
   
 
    
