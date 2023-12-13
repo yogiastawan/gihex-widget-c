@@ -7,7 +7,17 @@
 
 ## Introduction
 
-Library that contains custom GTK4 widget using C language
+Library that contains custom GTK4 widgets using C language
+
+## Widgets List
+  
+1. GihexGaugeBar 
+   
+   ![Gihex Gauge Bar](screenshoot/gihex_gauge_bar.png) 
+
+  
+
+   
 
 ## Build Dependencies
 
