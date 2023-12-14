@@ -1,5 +1,6 @@
 set (src gihex_gauge_bar.c
         gihex_circular_step_bar.c
+        gihex_arc_bar.c
         gihex_color.c)
 
 if(BUILD_SHARED)
