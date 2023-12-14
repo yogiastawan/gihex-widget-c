@@ -179,4 +179,24 @@ void gihex_arc_bar_set_unit(GihexArcBar *self, const char *unit);
  */
 void gihex_arc_bar_set_name(GihexArcBar *self, const char *name);
 
+/**
+ * @brief Set thickness of bar
+ *
+ * @param self Pointer to GihexArcBar
+ * @param value value to set
+ *
+ * @note Property name is `thickness` with type `double`.
+ */
+void gihex_arc_bar_set_thickness(GihexArcBar *self, double value);
+
+/**
+ * @brief Set size of indicator
+ *
+ * @param self Pointer to GihexArcBar
+ * @param size Size to set
+ *
+ * @note Property name is `indicator-size` with type `double`.
+ */
+void gihex_arc_bar_set_indicator_size(GihexArcBar *self, double size);
+
 G_END_DECLS

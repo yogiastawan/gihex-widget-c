@@ -12,8 +12,12 @@ struct _GihexArcBar
 
     gdouble sub_font_size;
 
+    gdouble thickness;
+
+    gdouble indicator_size;
+
     GihexColor color_track;
-    GihexColor color_stroke;
+    GihexColor color_indicator;
     GihexColor color_bar;
     GihexColor color_text;
 
@@ -26,18 +30,20 @@ enum
     PROP_VALUE = 1,
     PROP_MIN_VALUE,
     PROP_MAX_VALUE,
-    PROP_COLOR_STEP_TRACK,
-    PROP_COLOR_CIRCLE_OUTEST,
-    PROP_COLOR_STEP_BAR,
+    PROP_COLOR_TRACK,
+    PROP_COLOR_INDICATOR,
+    PROP_COLOR_BAR,
     PROP_FONT_SIZE_VALUE,
     PROP_SUB_FONT_SIZE,
     PROP_TEXT_COLOR,
     PROP_UNIT,
     PROP_NAME,
+    PROP_THICKNESS,
+    PROP_INDICATOR_SIZE,
     NUM_PROP
 };
 
-static GParamSpec *gauge_props[NUM_PROP] = {
+static GParamSpec *arc_props[NUM_PROP] = {
     NULL,
 };
 
@@ -63,13 +69,15 @@ static void gihex_arc_bar_init(GihexArcBar *self)
     self->min_value = 0.0;
     self->max_value = 100.0;
     self->color_track = gihex_color_new(42, 56, 53, 255);
-    self->color_stroke = gihex_color_new(42, 56, 53, 255);
+    self->color_indicator = gihex_color_new(0, 168, 174, 255);
     self->color_bar = gihex_color_new(0, 168, 174, 255);
     self->color_text = gihex_color_new(0, 168, 174, 255);
-    self->value_font_size = 12.0;
-    self->sub_font_size = 6.0;
+    self->value_font_size = 24.0;
+    self->sub_font_size = 12.0;
+    self->thickness = 9.0;
+    self->indicator_size = 48.0;
     self->unit = g_strdup("\%");
-    self->name = g_strdup("Gauge Bar");
+    self->name = g_strdup("Arc Bar");
 }
 
 static void gihex_arc_bar_class_init(GihexArcBarClass *klass)
@@ -84,42 +92,50 @@ static void gihex_arc_bar_class_init(GihexArcBarClass *klass)
     w_class->snapshot = gihex_arc_bar_snapshot;
     w_class->measure = gihex_arc_bar_measure;
 
-    gauge_props[PROP_VALUE] = g_param_spec_double("value", "Value", "Value of GihexArcBar",
-                                                  -G_MINDOUBLE, G_MAXDOUBLE, 30.0,
-                                                  G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_MIN_VALUE] = g_param_spec_double("min-value", "Minimum value", "Minimum value of GihexArcBar",
-                                                      -G_MINDOUBLE, G_MAXDOUBLE, 0.0,
-                                                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_MAX_VALUE] = g_param_spec_double("max-value", "Maximum value", "Maximum value of GihexArcBar",
-                                                      -G_MINDOUBLE, G_MAXDOUBLE, 100.0,
-                                                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_STEP_TRACK] = g_param_spec_boxed("color-track", "Color track", "Color of the track. Arc background",
-                                                            GDK_TYPE_RGBA,
-                                                            G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_CIRCLE_OUTEST] = g_param_spec_boxed("color-stroke", "Color stroke", "Color of the stroke. Arc stroke",
-                                                               GDK_TYPE_RGBA,
-                                                               G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_STEP_BAR] = g_param_spec_boxed("color-bar", "Color bar", "Color of the bar. Arc progress color",
-                                                          GDK_TYPE_RGBA,
+    arc_props[PROP_VALUE] = g_param_spec_double("value", "Value", "Value of GihexArcBar",
+                                                -G_MINDOUBLE, G_MAXDOUBLE, 30.0,
+                                                G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_MIN_VALUE] = g_param_spec_double("min-value", "Minimum value", "Minimum value of GihexArcBar",
+                                                    -G_MINDOUBLE, G_MAXDOUBLE, 0.0,
+                                                    G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_MAX_VALUE] = g_param_spec_double("max-value", "Maximum value", "Maximum value of GihexArcBar",
+                                                    -G_MINDOUBLE, G_MAXDOUBLE, 100.0,
+                                                    G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_COLOR_TRACK] = g_param_spec_boxed("color-track", "Color track", "Color of the track. Arc background",
+                                                     GDK_TYPE_RGBA,
+                                                     G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_COLOR_INDICATOR] = g_param_spec_boxed("color-indicator", "Color indicator", "Color of the indicator",
+                                                         GDK_TYPE_RGBA,
+                                                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_COLOR_BAR] = g_param_spec_boxed("color-bar", "Color bar", "Color of the bar. Arc progress color",
+                                                   GDK_TYPE_RGBA,
+                                                   G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
+    arc_props[PROP_FONT_SIZE_VALUE] = g_param_spec_double("value-font-size", "Font size of value", "Font size of value text",
+                                                          -G_MINDOUBLE, G_MAXDOUBLE, 12.0,
                                                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_FONT_SIZE_VALUE] = g_param_spec_double("value-font-size", "Font size of value", "Font size of value text",
-                                                            -G_MINDOUBLE, G_MAXDOUBLE, 12.0,
-                                                            G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
+                                                        -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
+                                                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
+                                                    GDK_TYPE_RGBA,
+                                                    G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
-                                                          -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
-                                                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
-                                                      GDK_TYPE_RGBA,
-                                                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_UNIT] = g_param_spec_string("unit", "Unit text", "Unit of arc bar", "\%",
+                                               G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_NAME] = g_param_spec_string("name", "Name text", "Name of arc bar", "Arc Bar",
+                                               G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_UNIT] = g_param_spec_string("unit", "Unit text", "Unit of gauge bar", "\%",
-                                                 G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_NAME] = g_param_spec_string("name", "Name text", "Name of gauge bar", "Gauge Bar",
-                                                 G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    arc_props[PROP_THICKNESS] = g_param_spec_double("thickness", "Thickness", "Bar Thickness",
+                                                    -G_MINDOUBLE, G_MAXDOUBLE, 9.0,
+                                                    G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    g_object_class_install_properties(o_class, NUM_PROP, gauge_props);
+    arc_props[PROP_INDICATOR_SIZE] = g_param_spec_double("indicator-size", "Indicator size", "Size of side triangle indicator",
+                                                         -G_MINDOUBLE, G_MAXDOUBLE, 48.0,
+                                                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
+    g_object_class_install_properties(o_class, NUM_PROP, arc_props);
     gtk_widget_class_set_css_name(w_class, "gihex_arc_bar");
 }
 
@@ -137,19 +153,19 @@ void gihex_arc_bar_set_property(GObject *object, guint property_id, const GValue
     case PROP_MAX_VALUE:
         gihex_arc_bar_set_max_value(self, g_value_get_double(value));
         break;
-    case PROP_COLOR_STEP_TRACK:
+    case PROP_COLOR_TRACK:
     {
         GdkRGBA *clr = (GdkRGBA *)g_value_get_boxed(value);
         gihex_arc_bar_set_color_track(self, gihex_color_new(clr->red * 255, clr->green * 255, clr->blue * 255, clr->alpha * 255));
         break;
     }
-    case PROP_COLOR_CIRCLE_OUTEST:
+    case PROP_COLOR_INDICATOR:
     {
         GdkRGBA *clr1 = g_value_get_boxed(value);
         gihex_arc_bar_set_color_indicator(self, gihex_color_new(clr1->red * 255, clr1->green * 255, clr1->blue * 255, clr1->alpha * 255));
         break;
     }
-    case PROP_COLOR_STEP_BAR:
+    case PROP_COLOR_BAR:
     {
         GdkRGBA *clr2 = g_value_get_boxed(value);
         gihex_arc_bar_set_color_bar(self, gihex_color_new(clr2->red * 255, clr2->green * 255, clr2->blue * 255, clr2->alpha * 255));
@@ -173,6 +189,12 @@ void gihex_arc_bar_set_property(GObject *object, guint property_id, const GValue
     case PROP_NAME:
         gihex_arc_bar_set_name(self, g_value_get_string(value));
         break;
+    case PROP_THICKNESS:
+        gihex_arc_bar_set_thickness(self, g_value_get_double(value));
+        break;
+    case PROP_INDICATOR_SIZE:
+        gihex_arc_bar_set_indicator_size(self, g_value_get_double(value));
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
@@ -194,7 +216,7 @@ void gihex_arc_bar_get_property(GObject *object, guint prop_id, GValue *value, G
     case PROP_MAX_VALUE:
         g_value_set_double(value, self->max_value);
         break;
-    case PROP_COLOR_STEP_TRACK:
+    case PROP_COLOR_TRACK:
     {
         GdkRGBA a = {
             (float)self->color_track.r / 255.0,
@@ -204,17 +226,17 @@ void gihex_arc_bar_get_property(GObject *object, guint prop_id, GValue *value, G
         g_value_set_boxed(value, gdk_rgba_copy(&a));
         break;
     }
-    case PROP_COLOR_CIRCLE_OUTEST:
+    case PROP_COLOR_INDICATOR:
     {
         GdkRGBA b = {
-            (float)self->color_stroke.r / 255.0,
-            (float)self->color_stroke.g / 255.0,
-            (float)self->color_stroke.b / 255.0,
-            (float)self->color_stroke.a / 255.0};
+            (float)self->color_indicator.r / 255.0,
+            (float)self->color_indicator.g / 255.0,
+            (float)self->color_indicator.b / 255.0,
+            (float)self->color_indicator.a / 255.0};
         g_value_set_boxed(value, gdk_rgba_copy(&b));
         break;
     }
-    case PROP_COLOR_STEP_BAR:
+    case PROP_COLOR_BAR:
     {
         GdkRGBA c = {
             (float)self->color_bar.r / 255.0,
@@ -245,6 +267,12 @@ void gihex_arc_bar_get_property(GObject *object, guint prop_id, GValue *value, G
         break;
     case PROP_NAME:
         g_value_set_string(value, self->name);
+        break;
+    case PROP_THICKNESS:
+        g_value_set_double(value, self->thickness);
+        break;
+    case PROP_INDICATOR_SIZE:
+        g_value_set_double(value, self->indicator_size);
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -280,7 +308,9 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
         size = h;
     }
 
-    gdouble thickness = 4.5 * size / 300.0;
+    gdouble indicator_side = self->indicator_size * size / 300.0;
+
+    gdouble thickness = self->thickness * size / 300.0;
     gdouble ro = (size - thickness) / 2.0;
 
     gdouble value = self->value;
@@ -297,9 +327,9 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
         value = min_value;
     }
 
-    int len = snprintf(NULL, 0, "%.1f", value);
+    int len = snprintf(NULL, 0, "%.0f", value);
     char *val = (char *)malloc(sizeof(char) * len);
-    sprintf(val, "%.1f", value);
+    sprintf(val, "%.0f", value);
     char *p = strstr(val, ".0");
     if (p)
         *p = 0x0;
@@ -310,10 +340,10 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
     {
         cairo_t *ctx_track = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
         cairo_arc(ctx_track, size / 2.0, size / 2.0, ro, 2.0 * G_PI / 3.0, 0.0);
-        cairo_set_source_rgba(ctx_track, gihex_color_get_red(&self->color_stroke),
-                              gihex_color_get_green(&self->color_stroke),
-                              gihex_color_get_blue(&self->color_stroke),
-                              gihex_color_get_alpha(&self->color_stroke));
+        cairo_set_source_rgba(ctx_track, gihex_color_get_red(&self->color_track),
+                              gihex_color_get_green(&self->color_track),
+                              gihex_color_get_blue(&self->color_track),
+                              gihex_color_get_alpha(&self->color_track));
         cairo_set_line_width(ctx_track, thickness);
         cairo_set_line_cap(ctx_track, CAIRO_LINE_CAP_ROUND);
         cairo_stroke(ctx_track);
@@ -321,30 +351,50 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
 
     // draw bar
     {
-        cairo_t *ctx_bar = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
-        cairo_arc(ctx_bar, size / 2.0,
+        cairo_t *ctx = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
+        cairo_arc(ctx, size / 2.0,
                   size / 2.0,
                   ro,
                   2.0 * G_PI / 3.0,
                   ((240.0 * (value - min_value) / (max_value - min_value)) + 120.0) * G_PI / 180.0);
 
-        cairo_set_source_rgba(ctx_bar, gihex_color_get_red(&self->color_bar),
+        cairo_set_source_rgba(ctx, gihex_color_get_red(&self->color_bar),
                               gihex_color_get_green(&self->color_bar),
                               gihex_color_get_blue(&self->color_bar),
                               gihex_color_get_alpha(&self->color_bar));
-        cairo_set_line_width(ctx_bar, thickness);
-        cairo_set_line_cap(ctx_bar, CAIRO_LINE_CAP_ROUND);
-        cairo_stroke(ctx_bar);
+        cairo_set_line_width(ctx, thickness);
+        cairo_set_line_cap(ctx, CAIRO_LINE_CAP_ROUND);
+        cairo_stroke(ctx);
+    }
+
+    // draw indicator
+    {
+        cairo_t *ctx = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
+        cairo_translate(ctx, size / 2.0, size / 2.0);
+        cairo_rotate(ctx, ((240.0 * (value - min_value) / (max_value - min_value)) + 120.0) * G_PI / 180.0);
+        cairo_translate(ctx, -size / 2.0, -size / 2.0);
+        cairo_move_to(ctx, size, size / 2.0);
+        cairo_line_to(ctx, size - (indicator_side * cos(30 * G_PI / 180.0)), size / 2.0 + (indicator_side / 2.0));
+        cairo_line_to(ctx, size - (indicator_side * cos(30 * G_PI / 180.0)), size / 2.0 - (indicator_side / 2.0));
+        cairo_close_path(ctx);
+
+        cairo_set_source_rgba(ctx, gihex_color_get_red(&self->color_indicator),
+                              gihex_color_get_green(&self->color_indicator),
+                              gihex_color_get_blue(&self->color_indicator),
+                              gihex_color_get_alpha(&self->color_indicator));
+        cairo_fill(ctx);
     }
 
     // draw text
-    cairo_text_extents_t extent;
 
     {
+        cairo_text_extents_t extent;
+
         cairo_t *ctx = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
         cairo_set_font_size(ctx, self->value_font_size * size / 75);
         cairo_text_extents(ctx, val, &extent);
-        cairo_move_to(ctx, (size / 2) - ((extent.width / 2) + extent.x_bearing), (size / 2) - ((extent.height / 2) + extent.y_bearing));
+        cairo_move_to(ctx, (size) - (extent.width + extent.x_bearing),
+                      (size / 2.0) + (((size / 2.0) - ((size / 2.0) * sin(120.0 * G_PI / 180.0))) / 2.0) + (indicator_side / 2.0) + extent.height);
         cairo_text_path(ctx, val);
         free(val);
         cairo_set_source_rgba(ctx, gihex_color_get_red(&self->color_text),
@@ -354,15 +404,16 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
         cairo_fill(ctx);
     }
 
-    // draw unit
+    // draw name
+    cairo_text_extents_t extent_name;
+
     {
         cairo_t *ctx = gtk_snapshot_append_cairo(snapshot, &GRAPHENE_RECT_INIT(0, 0, size, size));
-        cairo_text_extents_t extent_name;
         cairo_set_font_size(ctx, self->sub_font_size * size / 75);
         cairo_text_extents(ctx, self->name, &extent_name);
         cairo_move_to(ctx,
                       (size / 2) - ((extent_name.width / 2) + extent_name.x_bearing),
-                      (size / 2) - sy_word + ((extent.height / 2) + extent.y_bearing));
+                      (size / 2) - (extent_name.height + extent_name.y_bearing));
         cairo_text_path(ctx, self->name);
         cairo_set_source_rgba(ctx, gihex_color_get_red(&self->color_text),
                               gihex_color_get_green(&self->color_text),
@@ -379,7 +430,7 @@ void gihex_arc_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
         cairo_text_extents(ctx, self->unit, &extent_unit);
         cairo_move_to(ctx,
                       (size / 2) - ((extent_unit.width / 2) + extent_unit.x_bearing),
-                      (size / 2) + sy_word + extent_unit.height - ((extent.height / 2) + extent.y_bearing));
+                      (size / 2) - sy_word - extent_name.height - ((extent_unit.height) + extent_unit.y_bearing));
         cairo_text_path(ctx, self->unit);
         cairo_set_source_rgba(ctx, gihex_color_get_red(&self->color_text),
                               gihex_color_get_green(&self->color_text),
@@ -455,7 +506,7 @@ void gihex_arc_bar_set_color_track(GihexArcBar *self, GihexColor color)
 void gihex_arc_bar_set_color_indicator(GihexArcBar *self, GihexColor color)
 {
     g_return_if_fail(GIHEX_IS_ARC_BAR(self));
-    self->color_stroke = color;
+    self->color_indicator = color;
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
 void gihex_arc_bar_set_color_bar(GihexArcBar *self, GihexColor color)
@@ -504,5 +555,21 @@ void gihex_arc_bar_set_name(GihexArcBar *self, const char *name)
         return;
     g_free(self->name);
     self->name = g_strdup(name);
+    gtk_widget_queue_draw(GTK_WIDGET(self));
+}
+
+void gihex_arc_bar_set_thickness(GihexArcBar *self, double value)
+{
+    g_return_if_fail(GIHEX_IS_ARC_BAR(self));
+
+    self->thickness = value;
+    gtk_widget_queue_draw(GTK_WIDGET(self));
+}
+
+void gihex_arc_bar_set_indicator_size(GihexArcBar *self, double size)
+{
+    g_return_if_fail(GIHEX_IS_ARC_BAR(self));
+
+    self->indicator_size = size;
     gtk_widget_queue_draw(GTK_WIDGET(self));
 }
