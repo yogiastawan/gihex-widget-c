@@ -77,7 +77,7 @@ static void gihex_circular_step_bar_init(GihexCircularStepBar *self)
     self->color_text = gihex_color_new(15, 160, 151, 255);
     self->background = gihex_color_new(0, 51, 51, 255);
     self->numb_step = 20;
-    self->step_space = 3.0;
+    self->step_space = 4.0;
     self->indeterminate = false;
     self->current_index = 0;
     self->value_font_size = 12.0;
@@ -122,7 +122,7 @@ static void gihex_circular_step_bar_class_init(GihexCircularStepBarClass *klass)
                                                             G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
     gauge_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
-                                                          -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
+                                                          -G_MINDOUBLE, G_MAXDOUBLE, 4.0,
                                                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
     gauge_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
                                                       GDK_TYPE_RGBA,
@@ -138,7 +138,7 @@ static void gihex_circular_step_bar_class_init(GihexCircularStepBarClass *klass)
                                                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
     gauge_props[PROP_SPACE_STEP] = g_param_spec_double("space-step", "Space step", "Space between steps",
-                                                       -G_MINDOUBLE, G_MAXDOUBLE, 3.0,
+                                                       -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
                                                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
     gauge_props[PROP_INDETERMINATE] = g_param_spec_boolean("indeterminate", "Indeterminate", "Indeterminate",
@@ -341,9 +341,9 @@ static void gihex_circular_step_bar_snapshot(GtkWidget *widget, GtkSnapshot *sna
     gdouble r_circle = (size - (stroke_circle * 2.0)) / 2.0; // outest circle radius
     gdouble s_o = 9.0 * size / 100.0;                        // space circle and step
     gdouble r_o_dash = (size - s_o) / 2.0;                   // radius outest step
-    gdouble s_i = 2.0 * size / 5;                            // step thickness
+    gdouble s_i = 120.0 * size / 300.0;                            // step thickness
     gdouble r_i_dash = (size - s_i) / 2.0;                   // radius inner step
-    gdouble s_dash = self->step_space * size / 300.0;        // space between step
+    gdouble s_dash = self->step_space * size / 600.0;        // space between step
     gdouble s_angle = atan(s_dash / r_o_dash);               // space between step in radian
 
     int len = snprintf(NULL, 0, "%.1f", value);

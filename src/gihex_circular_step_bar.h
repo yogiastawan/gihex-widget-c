@@ -40,7 +40,7 @@
  * | Unit | unit | gihex_circular_step_bar_set_unit() | - | string | Yes | Yes | "%" | Unit of GihexCircularStepBar |
  * | Name | name | gihex_circular_step_bar_set_name() | - | string | Yes | Yes | "Gauge Bar" | Name of GihexCircularStepBar |
  * | Number steps | numb-step | gihex_circular_step_bar_set_numb_step() | - | uint8_t | Yes | Yes | 20 | Number of steps in GihexCircularStepBar |
- * | Space step | space-step | gihex_circular_step_bar_set_step_space() | - | double | Yes | Yes | 3.0 | Space between steps |
+ * | Space step | space-step | gihex_circular_step_bar_set_step_space() | - | double | Yes | Yes | 4.0 | Space between steps |
  * | Indeterminate state | indeterminate | gihex_circular_step_bar_set_indeterminate() | - | bool | Yes | Yes | false | State of the GihexCircularStepBar. (currently not work) |
  *
  * ## Example
