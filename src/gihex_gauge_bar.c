@@ -272,16 +272,16 @@ void gihex_gauge_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
 {
     GihexGaugeBar *self = GIHEX_GAUGE_BAR(widget);
 
-    int w = gtk_widget_get_width(widget);
-    int h = gtk_widget_get_height(widget);
-    gdouble size = (gdouble)w;
+    gdouble w = (gdouble)gtk_widget_get_width(widget);
+    gdouble h = (gdouble)gtk_widget_get_height(widget);
+    gdouble size = w;
     if (w > h)
     {
-        size = (gdouble)h;
+        size = h;
     }
 
-    gdouble ro = ((gdouble)size - 2.0) / 2.0;
-    gdouble ri = ((gdouble)size - 2.0) / 3.0;
+    gdouble ro = (size-2.0) / 2.0;
+    gdouble ri = (size-2.0) / 3.0;
 
     gdouble value = self->value;
     gdouble min_value = self->min_value;
@@ -303,7 +303,7 @@ void gihex_gauge_bar_snapshot(GtkWidget *widget, GtkSnapshot *snapshot)
     char *p = strstr(val, ".0");
     if (p)
         *p = 0x0;
-        
+
     double sy_word = 16.0 * size / 300.0;
 
     // draw track
