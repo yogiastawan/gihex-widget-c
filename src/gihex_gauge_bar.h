@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2023
  *
- * ## Description {#gihex_gauge_bar}
+ * ## Introduction {#gihex_gauge_bar}
  *
  * Create awesome gauge bar
  *

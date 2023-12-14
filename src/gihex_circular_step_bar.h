@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2023
  *
- * ## Description {#gihex_circular_step_bar}
+ * ## Introduction {#gihex_circular_step_bar}
  *
  * Create awesome circular step bar
  *
