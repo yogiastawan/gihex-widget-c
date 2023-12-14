@@ -194,6 +194,8 @@ void gihex_gauge_bar_set_color_bar(GihexGaugeBar *self, GihexColor color);
  *
  * @param self Pointer to `GihexGaugeBar`
  * @param size font size to set with type double.
+ * 
+ * @note Property name is `value-font-size` with type `double`.
  */
 void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size);
 
@@ -202,6 +204,8 @@ void gihex_gauge_bar_set_font_size_value(GihexGaugeBar *self, gdouble size);
  *
  * @param self Pointer to `GihexGaugeBar`
  * @param size font size to set with type double.
+ * 
+ * @note Property name is `sub-font-size` with type `double`.
  */
 void gihex_gauge_bar_set_sub_font_size(GihexGaugeBar *self, gdouble size);
 

@@ -9,7 +9,7 @@
  *
  * ## Description {#gihex_circular_step_bar}
  *
- * Create awesome circurlar step bar
+ * Create awesome circular step bar
  *
  * ![GihexCircularStepBar](screenshoot/gihex_circular_step_bar.png)
  *
@@ -196,6 +196,8 @@ void gihex_circular_step_bar_set_color_step_bar(GihexCircularStepBar *self, Gihe
  *
  * @param self Pointer to `GihexCircularStepBar`
  * @param size font size to set with type double.
+ * 
+ * @note Property name is `value-font-size` with type `double`.
  */
 void gihex_circular_step_bar_set_font_size_value(GihexCircularStepBar *self, gdouble size);
 
@@ -204,6 +206,8 @@ void gihex_circular_step_bar_set_font_size_value(GihexCircularStepBar *self, gdo
  *
  * @param self Pointer to `GihexCircularStepBar`
  * @param size font size to set with type double.
+ * 
+ * @note Property name is `sub-font-size` with type `double`.
  */
 void gihex_circular_step_bar_set_sub_font_size(GihexCircularStepBar *self, gdouble size);
 
