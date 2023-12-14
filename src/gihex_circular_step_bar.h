@@ -15,7 +15,7 @@
  *
  * ## CSS Node
  *
- * Style gauge bar using name `gihex_circular_step_bar`. Example:
+ * Style circular step bar using name `gihex_circular_step_bar`. Example:
  * ```css
  *
  * gihex_circular_step_bar{
@@ -38,7 +38,7 @@
  * | Value font size | value-font-size | gihex_circular_step_bar_set_font_size_value() | - | double | Yes | Yes | 12.0 | Font size of text value |
  * | Sub font size | sub-font-size | gihex_circular_step_bar_set_sub_font_size() | - | double | Yes | Yes | 6.0 | Font size of text name and unit |
  * | Unit | unit | gihex_circular_step_bar_set_unit() | - | string | Yes | Yes | "%" | Unit of GihexCircularStepBar |
- * | Name | name | gihex_circular_step_bar_set_name() | - | string | Yes | Yes | "Gauge Bar" | Name of GihexCircularStepBar |
+ * | Name | name | gihex_circular_step_bar_set_name() | - | string | Yes | Yes | "Circular Bar" | Name of GihexCircularStepBar |
  * | Number steps | numb-step | gihex_circular_step_bar_set_numb_step() | - | uint8_t | Yes | Yes | 20 | Number of steps in GihexCircularStepBar |
  * | Space step | space-step | gihex_circular_step_bar_set_step_space() | - | double | Yes | Yes | 4.0 | Space between steps |
  * | Indeterminate state | indeterminate | gihex_circular_step_bar_set_indeterminate() | - | bool | Yes | Yes | false | State of the GihexCircularStepBar. (currently not work) |
@@ -53,12 +53,12 @@
  * {
  *     // Create a new window
  *     GtkWidget *window = gtk_application_window_new(app);
- *     gtk_window_set_title(GTK_WINDOW(window), "Gihex Gauge Bar");
+ *     gtk_window_set_title(GTK_WINDOW(window), "Gihex Circular Bar");
  *     // Create a new box
  *     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
- *     // Create new gauge
- *     GtkWidget *gauge = gihex_circular_step_bar_new();
- *     gtk_box_append(GTK_BOX(box), gauge);
+ *     // Create new circular step
+ *     GtkWidget *circular step = gihex_circular_step_bar_new();
+ *     gtk_box_append(GTK_BOX(box), circular step);
  *     gtk_window_set_child(GTK_WINDOW(window), box);
  *     gtk_window_present(GTK_WINDOW(window));
  * }

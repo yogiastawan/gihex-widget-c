@@ -11,10 +11,9 @@ Library that contains custom GTK4 widgets using C language
 
 ## Widgets List
   
-| **GihexGaugeBar** | **GihexCircularStepBar** |
-|:-----------------:|:----------------------:|
-| ![Gihex Gauge Bar](screenshoot/gihex_gauge_bar.png) | ![Gihex Circular Step Bar](screenshoot/gihex_circular_step_bar.png) |
-<!-- | **GihexCircleBar** | -->
+| **GihexGaugeBar** | **GihexCircularStepBar** | **GihexArcBar** |
+|:-----------------:|:------------------------:|:---------------:|
+| ![Gihex Gauge Bar](screenshoot/gihex_gauge_bar.png) | ![Gihex Circular Step Bar](screenshoot/gihex_circular_step_bar.png) | ![Gihex Arc Bar](screenshoot/gihex_arc_bar.png) |
   
 
    

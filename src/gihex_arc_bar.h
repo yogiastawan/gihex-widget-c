@@ -7,6 +7,71 @@
  *
  * @copyright Copyright (c) 2023
  *
+ * ## Introduction {#gihex_arc_bar}
+ *
+ * Create awesome Arc bar
+ *
+ * ![GihexArcBar](screenshoot/gihex_arc_bar.png)
+ *
+ * ## CSS Node
+ *
+ * Style Arc bar using name `gihex_arc_bar`. Example:
+ * ```css
+ *
+ * gihex_arc_bar{
+ *      margin: 20px 20px;
+ * }
+ *
+ * ```
+ *
+ * ## Properties
+ *
+ * | Property | UI Name | Setter | Getter | Type | Read | Write | Default Value | Description |
+ * |----------|---------|--------|--------|------|------|-------|---------------|-------------|
+ * | Value | value | gihex_arc_bar_set_value() | gihex_arc_bar_get_value() | double | Yes | Yes | 30.0 | Value of GihexArcBar |
+ * | Minimum value | min-value | gihex_arc_bar_set_min_value() | gihex_arc_bar_get_min_value() | double | Yes | Yes | 0.0 | Minimum value of GihexArcBar |
+ * | Maximum value | max-value | gihex_arc_bar_set_max_value() | gihex_arc_bar_get_max_value() | double | Yes | Yes | 100.0 | Maximum Value of GihexArcBar |
+ * | Color track | color-track | gihex_arc_bar_set_color_track() | - | GdkRGBA | Yes | Yes | <ul><li>r: 42</li><li>g: 56</li><li>b: 53</li><li>a: 255</li></ul> | Color of background bar |
+ * | Color stroke | color-stroke | gihex_arc_bar_set_color_stroke() | - | GdkRGBA | Yes | Yes | <ul><li>r: 42</li><li>g: 56</li><li>b: 53</li><li>a: 255</li></ul> | Color of stroke background bar |
+ * | Color bar | color-bar | gihex_arc_bar_set_color_bar() | - | GdkRGBA | Yes | Yes | <ul><li>r: 0</li><li>g: 168</li><li>b: 174</li><li>a: 255</li></ul> | Color of bar |
+ * | Color text | color-text | gihex_arc_bar_set_color_text() | - | GdkRGBA | Yes | Yes | <ul><li>r: 0</li><li>g: 168</li><li>b: 174</li><li>a: 255</li></ul> | Color of text |
+ * | Value font size | value-font-size | gihex_arc_bar_set_font_size_value() | - | double | Yes | Yes | 24.0 | Font size of text value |
+ * | Sub font size | sub-font-size | gihex_arc_bar_set_sub_font_size() | - | double | Yes | Yes | 12.0 | Font size of text name and unit |
+ * | Unit | unit | gihex_arc_bar_set_unit() | - | string | Yes | Yes | "%" | Unit of GihexArcBar |
+ * | Name | name | gihex_arc_bar_set_name() | - | string | Yes | Yes | "Arc Bar" | Name of GihexArcBar |
+ * | Thickness | thickness | gihex_arc_bar_set_thickness() | - | double | Yes | Yes | 9.0 | Thisckness of bar |
+ * | Indicator Size| indicator-size | gihex_arc_bar_set_indicator_size() | - | double | Yes | Yes | 48.0 | Size of indicator |
+ *
+ * ## Example
+ * ```c
+ * #include <gtk/gtk.h>
+ *
+ * #include <gihex_arc_bar.h>
+ *
+ * static void on_activate(GtkApplication *app)
+ * {
+ *     // Create a new window
+ *     GtkWidget *window = gtk_application_window_new(app);
+ *     gtk_window_set_title(GTK_WINDOW(window), "Gihex Arc Bar");
+ *     // Create a new box
+ *     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
+ *     // Create new arc
+ *     GtkWidget *arc = gihex_arc_bar_new();
+ *     gtk_box_append(GTK_BOX(box), arc);
+ *     gtk_window_set_child(GTK_WINDOW(window), box);
+ *     gtk_window_present(GTK_WINDOW(window));
+ * }
+ *
+ * int main(int argc, char *argv[])
+ * {
+ *     // Create a new application
+ *     GtkApplication *app = gtk_application_new("com.example.GtkApplication",
+ *                                               G_APPLICATION_FLAGS_NONE);
+ *     g_signal_connect(app, "activate", G_CALLBACK(on_activate), NULL);
+ *     return g_application_run(G_APPLICATION(app), argc, argv);
+ * }
+ *
+ * ```
  */
 
 #include <gtk/gtk.h>

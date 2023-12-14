@@ -166,12 +166,12 @@ Introduction</h2>
 <img src="../../gihex_circular_step_bar.png" alt=""/>
 <div class="caption">
 GihexCircularStepBar</div></div>
-    <h2><a class="anchor" id="css-node"></a>
+    <h2><a class="anchor" id="css-node-1"></a>
 CSS Node</h2>
-<p>Style gauge bar using name <code>gihex_circular_step_bar</code>. Example: </p><div class="fragment"><div class="line">gihex_circular_step_bar{</div>
+<p>Style circular step bar using name <code>gihex_circular_step_bar</code>. Example: </p><div class="fragment"><div class="line">gihex_circular_step_bar{</div>
 <div class="line">     margin: 20px 20px;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="properties"></a>
+</div><!-- fragment --><h2><a class="anchor" id="properties-1"></a>
 Properties</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -237,7 +237,7 @@ a: 255</li>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Unit   </td><td class="markdownTableBodyNone">unit   </td><td class="markdownTableBodyNone"><a class="el" href="../../d7/d65/gihex__circular__step__bar_8h.html#ac5886294b31224577136d098ce028661" title="Set unit of GihexCircularStepBar">gihex_circular_step_bar_set_unit()</a>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">string   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">"%"   </td><td class="markdownTableBodyNone">Unit of GihexCircularStepBar    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Name   </td><td class="markdownTableBodyNone">name   </td><td class="markdownTableBodyNone"><a class="el" href="../../d7/d65/gihex__circular__step__bar_8h.html#a4a9f0ea968616f42f5f580b7f1db77b5" title="Set name of GihexCircularStepBar">gihex_circular_step_bar_set_name()</a>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">string   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">"Gauge Bar"   </td><td class="markdownTableBodyNone">Name of GihexCircularStepBar    </td></tr>
+<td class="markdownTableBodyNone">Name   </td><td class="markdownTableBodyNone">name   </td><td class="markdownTableBodyNone"><a class="el" href="../../d7/d65/gihex__circular__step__bar_8h.html#a4a9f0ea968616f42f5f580b7f1db77b5" title="Set name of GihexCircularStepBar">gihex_circular_step_bar_set_name()</a>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">string   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">"Circular Bar"   </td><td class="markdownTableBodyNone">Name of GihexCircularStepBar    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Number steps   </td><td class="markdownTableBodyNone">numb-step   </td><td class="markdownTableBodyNone"><a class="el" href="../../d7/d65/gihex__circular__step__bar_8h.html#a6f90f45f24d6b6e30eb7368c717aecff" title="Set number steps of GihexCircularStepBar">gihex_circular_step_bar_set_numb_step()</a>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">uint8_t   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">20   </td><td class="markdownTableBodyNone">Number of steps in GihexCircularStepBar    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -245,7 +245,7 @@ a: 255</li>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Indeterminate state   </td><td class="markdownTableBodyNone">indeterminate   </td><td class="markdownTableBodyNone"><a class="el" href="../../d7/d65/gihex__circular__step__bar_8h.html#a924fa751ff704460fbb09c7246f4fceb" title="Set GihexCircularStepBar indeterminate state.">gihex_circular_step_bar_set_indeterminate()</a>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">bool   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">Yes   </td><td class="markdownTableBodyNone">false   </td><td class="markdownTableBodyNone">State of the GihexCircularStepBar. (currently not work)   </td></tr>
 </table>
-<h2><a class="anchor" id="example"></a>
+<h2><a class="anchor" id="example-1"></a>
 Example</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;gtk/gtk.h&gt;</span></div>
 <div class="line"> </div>
@@ -255,12 +255,12 @@ Example</h2>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// Create a new window</span></div>
 <div class="line">    GtkWidget *window = gtk_application_window_new(app);</div>
-<div class="line">    gtk_window_set_title(GTK_WINDOW(window), <span class="stringliteral">&quot;Gihex Gauge Bar&quot;</span>);</div>
+<div class="line">    gtk_window_set_title(GTK_WINDOW(window), <span class="stringliteral">&quot;Gihex Circular Bar&quot;</span>);</div>
 <div class="line">    <span class="comment">// Create a new box</span></div>
 <div class="line">    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);</div>
-<div class="line">    <span class="comment">// Create new gauge</span></div>
-<div class="line">    GtkWidget *gauge = gihex_circular_step_bar_new();</div>
-<div class="line">    gtk_box_append(GTK_BOX(box), gauge);</div>
+<div class="line">    <span class="comment">// Create new circular step</span></div>
+<div class="line">    GtkWidget *circular step = gihex_circular_step_bar_new();</div>
+<div class="line">    gtk_box_append(GTK_BOX(box), circular step);</div>
 <div class="line">    gtk_window_set_child(GTK_WINDOW(window), box);</div>
 <div class="line">    gtk_window_present(GTK_WINDOW(window));</div>
 <div class="line">}</div>
