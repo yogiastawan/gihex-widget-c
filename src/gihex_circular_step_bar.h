@@ -152,25 +152,25 @@ double gihex_circular_step_bar_get_max_value(GihexCircularStepBar *self);
  * @param self Pointer to `GihexCircularStepBar`
  * @param color \ref gihex_color "GihexColor" set
  *
- * @note Color track can also be set with property using name `color-track` with value `GdkRGBA`. Example:
+ * @note Color step track can also be set with property using name `color-step-track` with value `GdkRGBA`. Example:
  * ```xml
  *
- * <property name="color-track">rgb(100,100,255)</property>
+ * <property name="color-step-track">rgb(100,100,255)</property>
  *
  * ```
  */
 void gihex_circular_step_bar_set_color_step_track(GihexCircularStepBar *self, GihexColor color);
 
 /**
- * @brief Set color outest curcle of `GihexCircularStepBar`
+ * @brief Set color outest circle of `GihexCircularStepBar`
  *
  * @param self Pointer to `GihexCircularStepBar`
  * @param color \ref gihex_color "GihexColor" to set
  *
- * @note Color stroke can also be set with property using name `color-stroke` with value `GdkRGBA`. Example:
+ * @note Color circle outest can also be set with property using name `color-circle-outest` with value `GdkRGBA`. Example:
  * ```xml
  *
- * <property name="color-stroke">rgb(100,100,255)</property>
+ * <property name="color-circle-outest">rgb(100,100,255)</property>
  *
  * ```
  */
@@ -182,10 +182,10 @@ void gihex_circular_step_bar_set_color_circle_outest(GihexCircularStepBar *self,
  * @param self Pointer to `GihexCircularStepBar`
  * @param color \ref gihex_color "GihexColor" to set
  *
- * @note Color bar can also be set with property using name `color-bar` with value `GdkRGBA`. Example:
+ * @note Color step bar can also be set with property using name `color-step-bar` with value `GdkRGBA`. Example:
  * ```xml
  *
- * <property name="color-bar">rgb(100,100,255)</property>
+ * <property name="color-step-bar">rgb(100,100,255)</property>
  *
  * ```
  */
