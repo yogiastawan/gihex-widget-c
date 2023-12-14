@@ -338,10 +338,10 @@ static void gihex_circular_step_bar_snapshot(GtkWidget *widget, GtkSnapshot *sna
     }
 
     gdouble stroke_circle = 4.5 * size / 300.0;              // stroke thickness outest circle
-    gdouble r_circle = (size - (stroke_circle * 2.0)) / 2.0; // outest circle radius
-    gdouble s_o = 9.0 * size / 100.0;                        // space circle and step
+    gdouble r_circle = (size - stroke_circle) / 2.0; // outest circle radius
+    gdouble s_o = 22 * size / 300.0;                        // space circle and step
     gdouble r_o_dash = (size - s_o) / 2.0;                   // radius outest step
-    gdouble s_i = 120.0 * size / 300.0;                            // step thickness
+    gdouble s_i = 110.0 * size / 300.0;                            // step thickness
     gdouble r_i_dash = (size - s_i) / 2.0;                   // radius inner step
     gdouble s_dash = self->step_space * size / 600.0;        // space between step
     gdouble s_angle = atan(s_dash / r_o_dash);               // space between step in radian
