@@ -26,9 +26,9 @@ enum
     PROP_VALUE = 1,
     PROP_MIN_VALUE,
     PROP_MAX_VALUE,
-    PROP_COLOR_STEP_TRACK,
-    PROP_COLOR_CIRCLE_OUTEST,
-    PROP_COLOR_STEP_BAR,
+    PROP_COLOR_TRACK,
+    PROP_COLOR_INDICATOR,
+    PROP_COLOR_BAR,
     PROP_FONT_SIZE_VALUE,
     PROP_SUB_FONT_SIZE,
     PROP_TEXT_COLOR,
@@ -37,7 +37,7 @@ enum
     NUM_PROP
 };
 
-static GParamSpec *gauge_props[NUM_PROP] = {
+static GParamSpec *arc_props[NUM_PROP] = {
     NULL,
 };
 
@@ -84,42 +84,42 @@ static void gihex_gauge_bar_class_init(GihexGaugeBarClass *klass)
     w_class->snapshot = gihex_gauge_bar_snapshot;
     w_class->measure = gihex_gauge_bar_measure;
 
-    gauge_props[PROP_VALUE] = g_param_spec_double("value", "Value", "Value of GihexGaugeBar",
+    arc_props[PROP_VALUE] = g_param_spec_double("value", "Value", "Value of GihexGaugeBar",
                                                   -G_MINDOUBLE, G_MAXDOUBLE, 30.0,
                                                   G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_MIN_VALUE] = g_param_spec_double("min-value", "Minimum value", "Minimum value of GihexGaugeBar",
+    arc_props[PROP_MIN_VALUE] = g_param_spec_double("min-value", "Minimum value", "Minimum value of GihexGaugeBar",
                                                       -G_MINDOUBLE, G_MAXDOUBLE, 0.0,
                                                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_MAX_VALUE] = g_param_spec_double("max-value", "Maximum value", "Maximum value of GihexGaugeBar",
+    arc_props[PROP_MAX_VALUE] = g_param_spec_double("max-value", "Maximum value", "Maximum value of GihexGaugeBar",
                                                       -G_MINDOUBLE, G_MAXDOUBLE, 100.0,
                                                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_STEP_TRACK] = g_param_spec_boxed("color-track", "Color track", "Color of the track. Arc background",
+    arc_props[PROP_COLOR_TRACK] = g_param_spec_boxed("color-track", "Color track", "Color of the track. Arc background",
                                                             GDK_TYPE_RGBA,
                                                             G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_CIRCLE_OUTEST] = g_param_spec_boxed("color-stroke", "Color stroke", "Color of the stroke. Arc stroke",
+    arc_props[PROP_COLOR_INDICATOR] = g_param_spec_boxed("color-stroke", "Color stroke", "Color of the stroke. Arc stroke",
                                                                GDK_TYPE_RGBA,
                                                                G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_COLOR_STEP_BAR] = g_param_spec_boxed("color-bar", "Color bar", "Color of the bar. Arc progress color",
+    arc_props[PROP_COLOR_BAR] = g_param_spec_boxed("color-bar", "Color bar", "Color of the bar. Arc progress color",
                                                           GDK_TYPE_RGBA,
                                                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_FONT_SIZE_VALUE] = g_param_spec_double("value-font-size", "Font size of value", "Font size of value text",
+    arc_props[PROP_FONT_SIZE_VALUE] = g_param_spec_double("value-font-size", "Font size of value", "Font size of value text",
                                                             -G_MINDOUBLE, G_MAXDOUBLE, 12.0,
                                                             G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
+    arc_props[PROP_SUB_FONT_SIZE] = g_param_spec_double("sub-font-size", "Font size of sub text", "Font size of sub text",
                                                           -G_MINDOUBLE, G_MAXDOUBLE, 6.0,
                                                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
+    arc_props[PROP_TEXT_COLOR] = g_param_spec_boxed("color-text", "Color text", "Color of the text",
                                                       GDK_TYPE_RGBA,
                                                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    gauge_props[PROP_UNIT] = g_param_spec_string("unit", "Unit text", "Unit of gauge bar", "\%",
+    arc_props[PROP_UNIT] = g_param_spec_string("unit", "Unit text", "Unit of gauge bar", "\%",
                                                  G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-    gauge_props[PROP_NAME] = g_param_spec_string("name", "Name text", "Name of gauge bar", "Gauge Bar",
+    arc_props[PROP_NAME] = g_param_spec_string("name", "Name text", "Name of gauge bar", "Gauge Bar",
                                                  G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
-    g_object_class_install_properties(o_class, NUM_PROP, gauge_props);
+    g_object_class_install_properties(o_class, NUM_PROP, arc_props);
     gtk_widget_class_set_css_name(w_class, "gihex_gauge_bar");
 }
 
@@ -137,19 +137,19 @@ void gihex_gauge_bar_set_property(GObject *object, guint property_id, const GVal
     case PROP_MAX_VALUE:
         gihex_gauge_bar_set_max_value(self, g_value_get_double(value));
         break;
-    case PROP_COLOR_STEP_TRACK:
+    case PROP_COLOR_TRACK:
     {
         GdkRGBA *clr = (GdkRGBA *)g_value_get_boxed(value);
         gihex_gauge_bar_set_color_track(self, gihex_color_new(clr->red * 255, clr->green * 255, clr->blue * 255, clr->alpha * 255));
         break;
     }
-    case PROP_COLOR_CIRCLE_OUTEST:
+    case PROP_COLOR_INDICATOR:
     {
         GdkRGBA *clr1 = g_value_get_boxed(value);
         gihex_gauge_bar_set_color_stroke(self, gihex_color_new(clr1->red * 255, clr1->green * 255, clr1->blue * 255, clr1->alpha * 255));
         break;
     }
-    case PROP_COLOR_STEP_BAR:
+    case PROP_COLOR_BAR:
     {
         GdkRGBA *clr2 = g_value_get_boxed(value);
         gihex_gauge_bar_set_color_bar(self, gihex_color_new(clr2->red * 255, clr2->green * 255, clr2->blue * 255, clr2->alpha * 255));
@@ -194,7 +194,7 @@ void gihex_gauge_bar_get_property(GObject *object, guint prop_id, GValue *value,
     case PROP_MAX_VALUE:
         g_value_set_double(value, self->max_value);
         break;
-    case PROP_COLOR_STEP_TRACK:
+    case PROP_COLOR_TRACK:
     {
         GdkRGBA a = {
             (float)self->color_track.r / 255.0,
@@ -204,7 +204,7 @@ void gihex_gauge_bar_get_property(GObject *object, guint prop_id, GValue *value,
         g_value_set_boxed(value, gdk_rgba_copy(&a));
         break;
     }
-    case PROP_COLOR_CIRCLE_OUTEST:
+    case PROP_COLOR_INDICATOR:
     {
         GdkRGBA b = {
             (float)self->color_stroke.r / 255.0,
@@ -214,7 +214,7 @@ void gihex_gauge_bar_get_property(GObject *object, guint prop_id, GValue *value,
         g_value_set_boxed(value, gdk_rgba_copy(&b));
         break;
     }
-    case PROP_COLOR_STEP_BAR:
+    case PROP_COLOR_BAR:
     {
         GdkRGBA c = {
             (float)self->color_bar.r / 255.0,
