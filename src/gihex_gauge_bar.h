@@ -225,6 +225,8 @@ void gihex_gauge_bar_set_color_text(GihexGaugeBar *self, GihexColor color);
  *
  * @param self Pointer to `GihexGaugeBar`
  * @param unit Unit to set.
+ * 
+ * @note Property name is `unit` with type `string`
  */
 void gihex_gauge_bar_set_unit(GihexGaugeBar *self, const char *unit);
 
@@ -233,6 +235,8 @@ void gihex_gauge_bar_set_unit(GihexGaugeBar *self, const char *unit);
  *
  * @param self Pointer to `GihexGaugeBar`
  * @param name Name to set.
+ * 
+ * @note Property name is `name` with type `string`
  */
 void gihex_gauge_bar_set_name(GihexGaugeBar *self, const char *name);
 
